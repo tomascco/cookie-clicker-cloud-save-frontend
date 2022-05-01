@@ -18,7 +18,7 @@ CloudSave.buildMenuHTML = function () {
   HTML += '<br>';
 
   // ActionButton: (action, text) => String
-  HTML += CCSE.MenuHelper.ActionButton('', 'Load Cloud Save');
+  HTML += CCSE.MenuHelper.ActionButton('CloudSave.loadSave();', 'Load Cloud Save');
 
   // ActionButton: (action, text) => String
   HTML += CCSE.MenuHelper.ActionButton('CloudSave.storeSave();', 'Cloud Save');
@@ -66,6 +66,22 @@ CloudSave.storeSave = async function () {
   }
 
   return response;
+}
+
+CloudSave.loadSave = async function () {
+  const URL = "https://emncx62pn4bucvnmvob6wb35ui0neuae.lambda-url.sa-east-1.on.aws/";
+
+  const response = await fetch(URL, {
+    body: JSON.stringify({owner_uuid: CloudSave.data['ownerSecretUUID']}),
+    headers: {'Content-Type': 'application/json'}
+  });
+  const body = await response.text();
+
+  if (response.status == 200) {
+    Game.LoadSave(body);
+  } else {
+    Game.Notify('Cloud Load was NOT Sucessfull', body,'',1,1)
+  }
 }
 
 if (typeof CCSE === 'undefined' || !CCSE.isLoaded) {
