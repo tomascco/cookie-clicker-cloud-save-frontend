@@ -72,6 +72,7 @@ CloudSave.loadSave = async function () {
   const URL = "https://emncx62pn4bucvnmvob6wb35ui0neuae.lambda-url.sa-east-1.on.aws/";
 
   const response = await fetch(URL, {
+    method: 'POST',
     body: JSON.stringify({owner_uuid: CloudSave.data['ownerSecretUUID']}),
     headers: {'Content-Type': 'application/json'}
   });
