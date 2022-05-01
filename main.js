@@ -52,9 +52,14 @@ CloudSave.storeSave = async function () {
     headers: {'Content-Type': 'application/json'}
   });
 
-  if(await response.text() === 'ok') {
-    console.log('ok');
+  const body = await response.text();
+
+  if(body === 'ok') {
+    Game.Notify('Cloud Saved Successfuly.','','',1,1)
+  } else {
+    Game.Notify('Cloud Save was NOT Sucessfull', body,'',1,1)
   }
+
   return response;
 }
 
