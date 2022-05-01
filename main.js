@@ -15,6 +15,11 @@ CloudSave.buildMenuHTML = function () {
     "CloudSave.setData('ownerSecretUUID', l('ownerSecretUUID').value)"
   );
 
+  HTML += '<br>';
+
+  // ActionButton: (action, text) => String
+  HTML += CCSE.MenuHelper.ActionButton('', 'Load Cloud Save');
+
   // ActionButton: (action, text) => String
   HTML += CCSE.MenuHelper.ActionButton('CloudSave.storeSave();', 'Cloud Save');
 
