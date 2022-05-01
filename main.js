@@ -27,11 +27,20 @@ CloudSave.buildMenuHTML = function () {
   return HTML;
 }
 
+CloudSave.autosave = function () {
+  if (Game.T % (Game.fps * 120) == 0 && Game.T > Game.fps * 10 && Game.prefs.autosave && !Game.OnAscend) {
+    CloudSave.storeSave();
+  }
+}
+
 CloudSave.init = function () {
   CloudSave.data = {};
+
   Game.customOptionsMenu.push(function(){
     CCSE.AppendCollapsibleOptionsMenu('Cloud Save', CloudSave.buildMenuHTML());
   });
+
+  Game.registerHook('logic', CloudSave.autosave);
 }
 
 CloudSave.save = function () {
@@ -62,7 +71,7 @@ CloudSave.storeSave = async function () {
   if(body === 'ok') {
     Game.Notify('Cloud Saved Successfuly.','','',1,1)
   } else {
-    Game.Notify('Cloud Save was NOT Sucessfull', body,'',1,1)
+    Game.Notify('Cloud Save was NOT Sucessfull', response.status,'',1,1)
   }
 
   return response;
@@ -81,7 +90,7 @@ CloudSave.loadSave = async function () {
   if (response.status == 200) {
     Game.LoadSave(body);
   } else {
-    Game.Notify('Cloud Load was NOT Sucessfull', body,'',1,1)
+    Game.Notify('Cloud Load was NOT Sucessfull', response.status,'',1,1)
   }
 }
 
